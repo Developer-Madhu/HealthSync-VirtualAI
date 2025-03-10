@@ -140,56 +140,104 @@ Example : {"user" : "I am suffering with fever"}, {"ai":"Diagnosis, Medication G
   }
 });
 
-app.post("/assistant-dashboard", async (req, res) => {
-  const { message } = req.body;
+const AppointmentSchema = new mongoose.Schema({
+  user: String,
+  date: String,
+  time: String,
+  doctor: String,
+});
 
-  const dashboardPrompt = `
-You are an AI assistant that manages a patient's healthcare dashboard. Your role is to process user requests and perform actions like booking, canceling, or showing appointments, and updating user details.
+const Appointment = mongoose.model("Appointment", AppointmentSchema);
 
-Tasks you can perform:
-- Booking an appointment: Example - "Book an appointment with Dr. Smith at 10 AM tomorrow."
-- Canceling an appointment: Example - "Cancel my appointment on March 15."
-- Viewing upcoming appointments: Example - "Show my upcoming appointments."
-- Updating user details: Example - "Update my contact details to [new details]."
+app.post("/chat", async (req, res) => {
+  // const { message } = req.body;
+  const { message, user } = req.body;
 
-Analyze the user request and respond accordingly.
+  // Detect User Intent (Booking, Viewing, Cancelling)
+  let action = "";
+  if (/book|schedule/i.test(message)) action = "book";
+  else if (/cancel|remove/i.test(message)) action = "cancel";
+  else if (/view|my appointments/i.test(message)) action = "view";
 
-**User Query:** ${message}
-**AI Response:**
+  let aiContext = "";
+
+  // 📌 Perform Database Actions
+  if (action === "view") {
+    const appointments = await Appointment.find({ user });
+    aiContext = appointments.length
+      ? `Here are the upcoming appointments: ${JSON.stringify(appointments)}`
+      : "No upcoming appointments found.";
+  }
+
+  if (action === "cancel") {
+    const deleted = await Appointment.deleteOne({ user });
+    aiContext = deleted.deletedCount > 0 ? "Your appointment has been canceled." : "No appointment found to cancel.";
+  }
+
+  if (action === "book") {
+    // Extract details using regex (basic approach)
+    const dateMatch = message.match(/\b(\w+\s\d{1,2})\b/); // Example: "March 15"
+    const timeMatch = message.match(/\b(\d{1,2}(:\d{2})?\s?(AM|PM)?)\b/i);
+    const doctorMatch = message.match(/Dr\.\s\w+/);
+
+    const newAppointment = new Appointment({
+      user,
+      date: dateMatch ? dateMatch[1] : "Unknown",
+      time: timeMatch ? timeMatch[1] : "Unknown",
+      doctor: doctorMatch ? doctorMatch[0] : "General Practitioner",
+    });
+
+    await newAppointment.save();
+    aiContext = `Your appointment is booked on ${newAppointment.date} at ${newAppointment.time} with ${newAppointment.doctor}.`;
+  }
+
+
+  const healthPrompt = `
+You are an AI-powered Virtual Health Assistant that manages patient appointments and user details. Your primary tasks include:
+
+Booking Appointments:  
+   - If the user wants to book an appointment, ask for necessary details:  
+     **Patient Name, Date, Time, Doctor Specialization, and Symptoms.**  
+   - If details are missing, ask the user to provide them before confirming.
+
+Canceling Appointments:  
+   - If the user requests a cancellation, ask for their **Name and Appointment Date** for verification.  
+   - If multiple appointments exist, ask which one to cancel.  
+   - Confirm cancellation before finalizing.
+
+Viewing Upcoming Appointments:  
+   - If the user wants to check their appointments, ask for their **Name**.  
+   - Retrieve and display all upcoming appointments.
+
+4Updating User Details:  
+   - If the user wants to update their details (e.g., Name, Contact Info, Medical History), ask what they want to change.  
+   - Verify before making updates.
+
+   You can utilize the appointment schema to store new appointments from patient(user)
+
+**Example Interactions:**
+1. **User:** "I want to book an appointment with a dentist tomorrow at 10 AM."  
+   **AI:** "Got it! Booking an appointment with a dentist at 10 AM tomorrow. Can you please confirm your name?"  
+
+2. **User:** "Cancel my appointment on March 15th."  
+   **AI:** "I found an appointment on March 15th under your name. Please confirm cancellation."  
+
+3. **User:** "Show me my upcoming appointments."  
+   **AI:** "Fetching your upcoming appointments... You have an appointment with Dr. Smith on March 20th at 2 PM."  
+
+---
+**User Query:** ${message}  
+**AI:**
 `;
 
   try {
-    const response = await healthAgent.processInput(dashboardPrompt);
-    let aiResponse = response.replace(/\*\*/g, ""); // Remove ** from response
-
-    // Handle different actions based on AI response
-    if (message.toLowerCase().includes("book an appointment")) {
-      // Call backend appointment API
-      return res.json({ response: "✅ Appointment booked successfully!" });
-    }
-
-    if (message.toLowerCase().includes("cancel appointment")) {
-      // Call API to cancel appointment
-      return res.json({ response: "❌ Appointment canceled!" });
-    }
-
-    if (message.toLowerCase().includes("show my upcoming appointments")) {
-      // Fetch appointments from database
-      return res.json({ response: "📅 Here are your upcoming appointments: [List of appointments]" });
-    }
-
-    if (message.toLowerCase().includes("update my contact details")) {
-      // Update user details in database
-      return res.json({ response: "⚙ Contact details updated successfully!" });
-    }
-
-    res.json({ response: aiResponse });
+    const response = await healthAgent.processInput(healthPrompt);
+    res.json({ response });
   } catch (error) {
-    console.error("Error processing dashboard request:", error);
+    console.error("Error processing AI request:", error);
     res.status(500).json({ error: "Failed to process request." });
   }
 });
-
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization; // Get Authorization header

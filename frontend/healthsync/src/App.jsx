@@ -15,6 +15,7 @@ import DoctorDashboard from './Pages/DoctorDashboard';
 import AiAgent from './Pages/HealthAiAgent';
 import PatientDashboard from './Pages/PatientDashboard';
 import Maps from './Pages/Maps';
+import Assistant from './Pages/Assistant';
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ai-tools" element={<AITools />} />
-          <Route path="/chat" element={<ChatBot />} />
+          <Route path="/chat" element={<Assistant />} />
           <Route path="/signup/doctor-register" element={<RegisterDoc />} />
           <Route path="/signup/doctor-login" element={<LoginDoc />} />
           <Route path="/signup/patient-register" element={<Register />} />
