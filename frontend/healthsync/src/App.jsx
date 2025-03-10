@@ -14,6 +14,7 @@ import Login from './auth/Login';
 import DoctorDashboard from './Pages/DoctorDashboard';
 import AiAgent from './Pages/HealthAiAgent';
 import PatientDashboard from './Pages/PatientDashboard';
+import Maps from './Pages/Maps';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/patient-dashboard" element={<PatientDashboard />} />
           <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
           <Route path="/health-suggestion-ai" element={<AiAgent />} />
+          <Route path="/maps" element={<Maps />} />
         </Routes>
         <Footer />
       </div>
