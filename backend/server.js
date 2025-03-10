@@ -72,6 +72,7 @@ import Contact from './models/contact.js';
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Patient from "./models/patientSchema.js";
+import Doctor from "./models/doctorSchema.js";
 const genAI = new GoogleGenerativeAI("AIzaSyBLvHRUeAQ7lOZeTpDC8BZcOlOeIncBfto");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -239,22 +240,42 @@ Viewing Upcoming Appointments:
   }
 });
 
+// const verifyToken = (req, res, next) => {
+//   const authHeader = req.headers.authorization; // Get Authorization header
+//   if (!authHeader) {
+//     return res.status(401).json({ message: "Access denied, no token provided" });
+//   }
+
+//   const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
+
+//   if (!token) {
+//     return res.status(401).json({ message: "Invalid token format" });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(token, "supersecretkey"); // Replace with environment variable
+//     req.user = decoded; // Attach decoded user info to request
+//     next(); // Continue to next middleware
+//   } catch (error) {
+//     return res.status(401).json({ message: "Invalid token" });
+//   }
+// };
+
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization; // Get Authorization header
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ message: "Access denied, no token provided" });
   }
 
-  const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
-
+  const token = authHeader.split(" ")[1];
   if (!token) {
     return res.status(401).json({ message: "Invalid token format" });
   }
 
   try {
-    const decoded = jwt.verify(token, "supersecretkey"); // Replace with environment variable
-    req.user = decoded; // Attach decoded user info to request
-    next(); // Continue to next middleware
+    const decoded = jwt.verify(token, "supersecretkey");
+    req.user = decoded;
+    next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });
   }
@@ -267,6 +288,17 @@ app.get("/patient-dashboard", verifyToken, async (req, res) => {
     if (!patient) return res.status(404).json({ message: "Patient not found" });
 
     res.status(200).json(patient);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/doctor-dashboard", verifyToken, async (req, res) => {
+  try {
+    const doctor = await Doctor.findById(req.user.id).select("-password"); // Fetch doctor details, exclude password
+    if (!doctor) return res.status(404).json({ message: "Doctor not found" });
+
+    res.status(200).json(doctor); // Send doctor details as response
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -285,8 +317,6 @@ app.post("/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
 
 
 const PORT = 5000;

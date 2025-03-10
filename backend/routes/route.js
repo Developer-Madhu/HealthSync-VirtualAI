@@ -111,5 +111,26 @@ router.post("/patient-login", async (req, res) => {
   }
 });
 
+router.post("/doctor-login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find doctor by email
+    const doctor = await Doctor.findOne({ email });
+    if (!doctor) return res.status(404).json({ message: "Doctor not found" });
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(password, doctor.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+    // Generate JWT token
+    const token = jwt.sign({ id: doctor._id }, "supersecretkey", { expiresIn: "1h" });
+
+    // Return token and doctor ID
+    res.status(200).json({ token, doctorId: doctor._id });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 export default router
