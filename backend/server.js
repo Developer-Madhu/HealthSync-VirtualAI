@@ -1,65 +1,3 @@
-// // import express from 'express'
-// // import path from "path";
-// // import { fileURLToPath } from "url";
-// // import { createServer } from 'http';
-// // import { Server } from "socket.io"
-
-// // const app = express()
-// // const server = createServer(app);
-// // const io = new Server(server, { cors: { origin: '*' } });
-
-// // app.use(express.static('dummy'))
-
-// // const __filename = fileURLToPath(import.meta.url);
-// // const __dirname = path.dirname(__filename);
-
-
-
-// // app.get("/", (req, res) => {
-// //     res.sendFile(path.join(__dirname, "dummy", "index.html"));
-// // });
-
-// // io.on("connection", (socket) =>
-// //     socket.on('message', (msg) => {
-// //         io.emit('returnmsg', msg)
-// //     }))
-
-// // server.listen(8080, () => console.log("App started listening.."))
-// import express from "express";
-// import mongoose from "mongoose";
-// import cors from "cors";
-// import dotenv from "dotenv";
-// import bcrypt from "bcryptjs";
-// import Contact from './models/contact.js'
-// import router from "./routes/route.js";
-
-// dotenv.config();
-// const app = express();
-// app.use(express.json());
-// app.use(cors());
-
-// // MongoDB Connection
-// mongoose.connect("mongodb://localhost:27017/healthsync", { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log("MongoDB Connected"))
-//   .catch(err => console.error(err));
-
-// // API Route
-
-// app.use("/signup", router)
-
-// app.post("/", async (req, res) => {
-//     try {
-//       const { name, email, message } = req.body;
-//       const newContact = new Contact({ name, email, message });
-//       await newContact.save();
-//       res.status(201).json({ message: "Message sent successfully!" });
-//     } catch (error) {
-//       res.status(500).json({ message: "Server error" });
-//     }
-//   });
-
-// const PORT = 5000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -210,7 +148,7 @@ Viewing Upcoming Appointments:
    - If the user wants to check their appointments, ask for their **Name**.  
    - Retrieve and display all upcoming appointments.
 
-4Updating User Details:  
+Updating User Details:  
    - If the user wants to update their details (e.g., Name, Contact Info, Medical History), ask what they want to change.  
    - Verify before making updates.
 
@@ -239,27 +177,6 @@ Viewing Upcoming Appointments:
     res.status(500).json({ error: "Failed to process request." });
   }
 });
-
-// const verifyToken = (req, res, next) => {
-//   const authHeader = req.headers.authorization; // Get Authorization header
-//   if (!authHeader) {
-//     return res.status(401).json({ message: "Access denied, no token provided" });
-//   }
-
-//   const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
-
-//   if (!token) {
-//     return res.status(401).json({ message: "Invalid token format" });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(token, "supersecretkey"); // Replace with environment variable
-//     req.user = decoded; // Attach decoded user info to request
-//     next(); // Continue to next middleware
-//   } catch (error) {
-//     return res.status(401).json({ message: "Invalid token" });
-//   }
-// };
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
