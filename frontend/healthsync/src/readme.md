@@ -2,49 +2,58 @@
 
 🌍 Overview
 
-HealthSync is an AI-powered virtual health assistant designed to assist patients with basic health queries, provide medication guidance based on symptoms, and facilitate doctor consultations. Integrated with advanced AI models, HealthSync aims to deliver reliable and ethical medical advice while ensuring user safety and compliance with healthcare standards.
+HealthSync is an AI-powered virtual health assistant designed to streamline appointment booking, cancellations, and management while also providing diagnosis assistance, medication guidance, and doctor consultations. With dedicated modern dashboards for both doctors and patients, HealthSync aims to enhance the healthcare experience with automation and efficiency.
 
 🚀 Features
 
-✅ Diagnosis Assistance 🏥 - Users can input symptoms to receive potential health condition insights.
-✅ Medication Guidance 💊 - Offers general medication suggestions based on reported symptoms.
-✅ Medical Advice 🩺 - Provides informative and educational responses regarding health concerns.
-✅ Doctor Consultation 👩‍⚕️ - Connects users with healthcare professionals for expert guidance.
-✅ Ethical Responsibility & Limitations ⚖️ - Ensures responsible AI usage with disclaimers on medical advice reliability.
-✅ Multilingual Support (Upcoming) 🌐 - Work in progress to enable responses in multiple languages for wider accessibility.
+✅ AI-Powered Virtual Health Assistant
+Diagnosis Assistance 🏥 - Users can input symptoms to receive potential health condition insights.
+Medication Guidance 💊 - Provides general medication suggestions based on reported symptoms.
+Medical Advice 🩺 - Offers educational health insights and first-aid recommendations.
+Doctor Consultation 👩‍⚕️ - Connects users with healthcare professionals for expert guidance.
+Ethical Responsibility & Limitations ⚖️ - Ensures AI provides safe, responsible, and medically appropriate suggestions.
+✅ Smart Appointment Management System
+Book Appointments 📅 - Patients can schedule consultations with doctors using natural language prompts.
+Cancel Appointments ❌ - Users can modify or cancel appointments directly through the AI assistant.
+View Upcoming Appointments 🔍 - Patients and doctors can track scheduled appointments easily.
+Automated Scheduling 🤖 - AI extracts details from user queries and organizes appointments in the database.
+✅ Advanced Dashboards for Doctors & Patients
+Doctor Dashboard 🏥 - View patient appointments, manage availability, and access patient history.
+Patient Dashboard 💼 - Track appointments, access medical records, and receive AI-powered health insights.
+Real-Time Updates 🔄 - Appointment changes reflect instantly in dashboards.
 
 🏗️ Technology Stack
-
-🔹 Frontend: React.js
+🔹 Frontend: React.js (Vite, TailwindCSS)
 🔹 Backend: Node.js, Express.js
 🔹 Database: MongoDB
-🔹 AI Model: Google Gemini
-🔹 Hosting & Deployment: MERN stack web application with cloud-based integration
+🔹 AI Model: Google Gemini AI
+🔹 Authentication & Security: JWT (Upcoming)
+🔹 Deployment: MERN Stack with cloud-based integration
 
 🛠️ Usage
 
-HealthSync is a web-based application, eliminating the need for installation. Users can interact with the chatbot by sending text-based queries through the web interface.
-
-🔧 Installation & Setup
-
-    ❌ No installation required. Access the application directly via the website.
+HealthSync is a web-based application with an AI assistant for handling health queries & appointments.
+Users can book, cancel, and view appointments through a single prompt-based input field.
+Doctors can manage schedules, track patient visits, and update profiles via a dedicated dashboard.
 
 🔒 Security & Privacy
 
-⚠️ Security and privacy policies are currently under development. Future updates will include compliance details with health regulations (HIPAA, GDPR, etc.).
+    ⚠️ Upcoming Features:
+
+        Secure Authentication (JWT)
+        HIPAA & GDPR Compliance
+        Encrypted User Data Storage
 
 📜 License
 
     📌 To be updated.
 
 🤝 Contribution
-
-    💡 We welcome contributions to enhance HealthSync. Contribution guidelines will be provided in future updates.
+    💡 Contributions are welcome! We are working on documentation and contribution guidelines. Stay tuned for   updates.
 
 📩 Contact
+    📞 For inquiries, contact the development team (Details to be added).
 
-    📞 For any inquiries or support, please reach out to the development team. (Contact details to be added)
-
-
-⚠️ Disclaimer: HealthSync provides AI-driven health guidance and should not be considered a replacement for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
+⚠️ Disclaimer:
+    HealthSync provides AI-driven health guidance and appointment management. It is not a replacement for professional medical advice. Always consult a qualified healthcare provider for medical concerns.
 
