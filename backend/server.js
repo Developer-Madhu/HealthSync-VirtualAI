@@ -26,7 +26,7 @@ app.use(cors({
   credentials: true,
 }));
 
-mongoose.connect("mongodb://localhost:27017/healthsync", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://vidtubeuser:vidtubeuser12@cluster0.gsfsr.mongodb.net/vidtube", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(err));
 

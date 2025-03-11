@@ -37,13 +37,12 @@ const LoginDoc = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("userType", data.userType)
 
-      // Show success toast
       toast.success("Login Successful!");
 
       // Redirect to the doctor dashboard after a short delay
       setTimeout(() => {
         navigate("/");
-      }, 2000); // Redirect after 2 seconds
+      }, 1000); // Redirect after 2 seconds
     } catch (error) {
       // Show error toast
       toast.error(error.message || "An error occurred during login.");
