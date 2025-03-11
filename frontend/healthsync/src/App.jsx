@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import AITools from './components/AITools';
+import Navbar from './Components/Navbar';
+import Home from './Components/Home';
+import AITools from './Components/AITools';
 import ChatBot from './components/ChatBot';
 import Footer from './Components/Footer';
 import DocPage from './Pages/DocPage';
