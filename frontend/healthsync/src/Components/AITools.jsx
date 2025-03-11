@@ -5,13 +5,13 @@ const aiTools = [
     name: 'Health Suggestion - AI',
     description: 'Advanced AI system that analyzes symptoms and provides potential diagnoses with recommended actions.',
     icon: '🔍',
-    link: 'https://example.com/health-suggestion' // Add your link here
+    link: '/chat' // Add your link here
   },
   {
     name: 'Medical Report Analysis',
     description: 'AI-powered tool for analyzing medical images including X-rays, MRIs, and CT scans.',
     icon: '🔬',
-    link: 'https://example.com/medical-report-analysis' // Add your link here
+    link: '/chat' // Add your link here
   },
   {
     name: 'Find Nearest Hospital',
@@ -23,19 +23,19 @@ const aiTools = [
     name: 'Medication Reminder',
     description: 'AI tool that checks for potential drug interactions and side effects.',
     icon: '💊',
-    link: 'https://example.com/medication-reminder' // Add your link here
+    link: 'health-suggestion-ai' // Add your link here
   },
   {
     name: 'Mental Health Assistant',
     description: 'AI-powered mental health screening and support system.',
     icon: '🧠',
-    link: 'https://example.com/mental-health-assistant' // Add your link here
+    link: 'health-suggestion-ai' // Add your link here
   },
   {
     name: 'Diet & Nutrition AI',
     description: 'Personalized nutrition recommendations based on health data and goals.',
     icon: '🥗',
-    link: 'https://example.com/diet-nutrition-ai' 
+    link: 'health-suggestion-ai' 
   }
 ];
 

@@ -35,6 +35,7 @@ const LoginDoc = () => {
 
       // Store the token in localStorage
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userType", data.userType)
 
       // Show success toast
       toast.success("Login Successful!");

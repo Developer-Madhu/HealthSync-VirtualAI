@@ -96,7 +96,7 @@ router.post("/patient-login", async (req, res) => {
       const isMatch = await bcrypt.compare(password, patient.password);
       if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-      const token = jwt.sign({ id: patient._id }, "supersecretkey", { expiresIn: "1h" });
+      const token = jwt.sign({ id: patient._id, userType: "patient" }, "supersecretkey", { expiresIn: "1h" });
 
       // Set token in HttpOnly cookie
       res.cookie("token", token, {
@@ -105,7 +105,7 @@ router.post("/patient-login", async (req, res) => {
           maxAge: 3600000, // 1 hour
       });
 
-      res.status(200).json({ token, patientId: patient._id });
+      res.status(200).json({ token, userType: "patient", patientId: patient._id });
   } catch (error) {
       res.status(500).json({ message: "Server error" });
   }
@@ -115,19 +115,15 @@ router.post("/doctor-login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find doctor by email
     const doctor = await Doctor.findOne({ email });
     if (!doctor) return res.status(404).json({ message: "Doctor not found" });
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, doctor.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generate JWT token
-    const token = jwt.sign({ id: doctor._id }, "supersecretkey", { expiresIn: "1h" });
+    const token = jwt.sign({ id: doctor._id, userType: "doctor" }, "supersecretkey", { expiresIn: "1h" });
 
-    // Return token and doctor ID
-    res.status(200).json({ token, doctorId: doctor._id });
+    res.status(200).json({ token, userType: "doctor", doctorId: doctor._id });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
